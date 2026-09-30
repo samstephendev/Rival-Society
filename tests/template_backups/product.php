@@ -30,10 +30,8 @@ if (!$product) {
 <meta charset="UTF-8">
 <title><?= htmlspecialchars($product['name'], ENT_QUOTES, 'UTF-8') ?> | Rival Society</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="<?= url('/assets/base.css') ?>">
 <link rel="stylesheet" href="<?= url('/assets/style.css') ?>">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 </head>
 <body>
 
@@ -42,8 +40,10 @@ if (!$product) {
 
 <!-- IMAGES -->
 <div class="detail-images">
-  <img src="<?= url('/assets/images/' . htmlspecialchars($product['image_front'], ENT_QUOTES, 'UTF-8')) ?>" class="main-img" alt="<?= htmlspecialchars($product['name'], ENT_QUOTES, 'UTF-8') ?> - Front View" width="600" height="600">
-  <img src="<?= url('/assets/images/' . htmlspecialchars($product['image_back'], ENT_QUOTES, 'UTF-8')) ?>" class="alt-img" alt="<?= htmlspecialchars($product['name'], ENT_QUOTES, 'UTF-8') ?> - Back View" width="600" height="600">
+  <center>
+    <img src="<?= url('/assets/images/' . htmlspecialchars($product['image_front'], ENT_QUOTES, 'UTF-8')) ?>" class="main-img" alt="<?= htmlspecialchars($product['name'], ENT_QUOTES, 'UTF-8') ?>">
+    <img src="<?= url('/assets/images/' . htmlspecialchars($product['image_back'], ENT_QUOTES, 'UTF-8')) ?>" class="alt-img" alt="<?= htmlspecialchars($product['name'], ENT_QUOTES, 'UTF-8') ?>">
+  </center>
 </div>
 
 <!-- INFO -->
@@ -62,8 +62,8 @@ if (!$product) {
             <input type="hidden" name="product_id" value="<?= (int)$product['id'] ?>">
 
             <!-- SIZE -->
-            <label class="option-label">Select Size</label>
-            <div class="size-buttons" role="radiogroup" aria-label="Select Apparel Size">
+            <label class="option-label">Size</label>
+            <div class="size-buttons">
                 <?php foreach (['S', 'M', 'L', 'XL', 'XXL'] as $size): ?>
                     <input type="radio" name="size" id="size-<?= $size ?>" value="<?= $size ?>" required>
                     <label for="size-<?= $size ?>"><?= $size ?></label>
@@ -75,32 +75,26 @@ if (!$product) {
             <input type="number" name="quantity" id="quantity" value="1" min="1" max="<?= (int)$product['stock'] ?>" required>
 
             <!-- ADD -->
-            <button type="submit" class="add-cart-btn btn primary">
+            <button type="submit" class="add-cart-btn">
                 <i class="fas fa-cart-plus"></i> Add to Cart
             </button>
         </form>
       <?php else: ?>
-        <div class="alert alert-error">
-          <p>Currently out of stock. Please check back later!</p>
-        </div>
+        <p style="color: #ff6b6b; font-weight: 600;">Currently out of stock. Please check back later!</p>
       <?php endif; ?>
     <?php else: ?>
-        <a href="<?= url('/account/login.php') ?>" class="add-cart-btn btn primary">
-            <i class="fas fa-arrow-right-to-bracket"></i> Login to Add to Cart
+        <a href="<?= url('/account/login.php') ?>" class="add-cart-btn" style="display: inline-block; text-align: center; text-decoration: none;">
+            Login to Add to Cart
         </a>
     <?php endif; ?>
 
-    <p style="margin-top: 24px;">
-        <a href="<?= url('/page.php#store') ?>" class="back-link">← Back to Store</a>
+    <p style="margin-top: 20px;">
+        <a href="<?= url('/page.php#store') ?>" style="color: #aaa; text-decoration: none;">← Back to Store</a>
     </p>
 </div>
 
 </div>
 </section>
-
-<footer class="site-footer">
-  <p>&copy; <?= date('Y') ?> THE RIVAL SOCIETY. All rights reserved.</p>
-</footer>
 
 </body>
 </html>

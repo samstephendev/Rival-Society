@@ -39,54 +39,76 @@ try {
 }
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Delete Products | Rival Society</title>
-<link rel="stylesheet" href="<?= url('/assets/base.css') ?>">
 <link rel="stylesheet" href="<?= url('/admin/style.css') ?>">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+.product-row {
+    background: #252525;
+    padding: 12px 16px;
+    border-radius: 6px;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.del-btn {
+    background: #c92a2a;
+    color: #fff;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 4px;
+    cursor: pointer;
+    width: auto;
+    font-size: 13px;
+    margin: 0;
+}
+.del-btn:hover {
+    background: #a61e1e;
+}
+</style>
 </head>
 <body>
 
-<main class="container">
-    <h2>Delete Catalog Products</h2>
+<div class="container">
+    <h2>Delete Products</h2>
 
-    <p><a href="<?= url('/admin/dashboard.php') ?>" class="back-link">← Back to Dashboard</a></p>
+    <p><a href="<?= url('/admin/dashboard.php') ?>">← Back to Dashboard</a></p>
 
     <?php if ($message): ?>
-        <div class="alert <?= $messageType === 'success' ? 'alert-success' : 'alert-error' ?>">
+        <p style="color: <?= $messageType === 'success' ? '#4cff4c' : '#ff4c4c' ?>;">
             <?= htmlspecialchars($message, ENT_QUOTES, 'UTF-8') ?>
-        </div>
+        </p>
     <?php endif; ?>
 
     <?php if (empty($products)): ?>
-        <p style="color: var(--rs-text-muted);">No products currently in the database.</p>
+        <p style="color: #aaa;">No products in database.</p>
     <?php endif; ?>
 
     <?php foreach ($products as $p): ?>
     <div class="product-row">
         <div>
-            <strong><?= htmlspecialchars($p["name"], ENT_QUOTES, 'UTF-8') ?></strong>
-            <span style="display: block; margin-top: 4px;">₹<?= number_format((float)$p["price"], 2) ?> &bull; Stock: <?= (int)$p["stock"] ?> units</span>
+            <strong style="color:#fff;"><?= htmlspecialchars($p["name"], ENT_QUOTES, 'UTF-8') ?></strong>
+            <span style="color:#aaa; font-size:13px; margin-left: 10px;">(₹<?= number_format((float)$p["price"], 2) ?>, Stock: <?= (int)$p["stock"] ?>)</span>
         </div>
 
         <form method="POST" style="margin: 0; display: inline;">
             <?= csrf_field() ?>
             <input type="hidden" name="id" value="<?= (int)$p["id"] ?>">
-            <button type="submit" class="del-btn" onclick="return confirm('Are you sure you want to permanently delete this product?');" aria-label="Permanently delete <?= htmlspecialchars($p['name'], ENT_QUOTES, 'UTF-8') ?>">
-                <i class="fas fa-trash-can" style="margin-right: 6px;"></i> Delete Product
+            <button type="submit" class="del-btn" onclick="return confirm('Are you sure you want to permanently delete this product?');">
+                Delete
             </button>
         </form>
     </div>
     <?php endforeach; ?>
 
-    <p style="margin-top: 24px;">
-        <a href="<?= url('/admin/dashboard.php') ?>" class="back-link">← Back to Dashboard</a>
+    <p style="margin-top: 20px;">
+        <a href="<?= url('/admin/dashboard.php') ?>">← Back to Dashboard</a>
     </p>
-</main>
+</div>
 
 </body>
 </html>

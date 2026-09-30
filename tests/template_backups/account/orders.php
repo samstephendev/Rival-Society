@@ -29,29 +29,89 @@ try {
 <meta charset="UTF-8">
 <title>My Orders | Rival Society</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="<?= url('/assets/base.css') ?>">
 <link rel="stylesheet" href="<?= url('/assets/style.css') ?>">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+.orders-section {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 20px;
+}
+.orders-section h1 {
+    margin-bottom: 20px;
+    color: #fff;
+}
+.order-card {
+    background: #151515;
+    border: 1px solid #333;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+.order-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+}
+.order-id {
+    font-weight: 600;
+    color: #fff;
+}
+.order-status {
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 13px;
+    text-transform: uppercase;
+    font-weight: 600;
+}
+.status-pending { background: #2a2a2a; color: #f5c542; }
+.status-paid { background: #163; color: #4cff4c; }
+.status-failed { background: #400; color: #ff4c4c; }
+.order-items {
+    border-top: 1px solid #333;
+    padding-top: 10px;
+}
+.order-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+    font-size: 14px;
+    color: #ccc;
+}
+.order-total {
+    margin-top: 10px;
+    font-weight: 700;
+    color: #fff;
+    font-size: 16px;
+    text-align: right;
+}
+.back-link {
+    display: inline-block;
+    margin-top: 20px;
+    color: #aaa;
+    text-decoration: none;
+    font-weight: 600;
+}
+.back-link:hover {
+    color: #fff;
+    text-decoration: underline;
+}
+</style>
 </head>
 <body>
 
-<main class="orders-section">
+<section class="orders-section">
 <h1>My Orders</h1>
 
 <?php if (empty($orders)): ?>
-    <div class="empty-cart">
-      <p>You haven’t placed any orders yet.</p>
-      <a href="<?= url('/page.php#store') ?>" class="btn primary">Start Shopping</a>
-    </div>
+    <p style="color: #aaa;">You haven’t placed any orders yet.</p>
 <?php endif; ?>
 
 <?php foreach ($orders as $order): ?>
-<article class="order-card">
+<div class="order-card">
     <div class="order-header">
         <div class="order-id">
             Order #<?= htmlspecialchars((string)$order['id'], ENT_QUOTES, 'UTF-8') ?><br>
-            <small><?= htmlspecialchars(date("d M Y, h:i A", strtotime($order['created_at'])), ENT_QUOTES, 'UTF-8') ?></small>
+            <small style="color: #888;"><?= htmlspecialchars(date("d M Y, h:i A", strtotime($order['created_at'])), ENT_QUOTES, 'UTF-8') ?></small>
         </div>
 
         <div class="order-status status-<?= htmlspecialchars($order['payment_status'], ENT_QUOTES, 'UTF-8') ?>">
@@ -91,18 +151,14 @@ try {
     <div class="order-total">
         Total: ₹<?= number_format((float)$order['total'], 2) ?>
     </div>
-</article>
+</div>
 <?php endforeach; ?>
 
 <a href="<?= url('/account/dashboard.php') ?>" class="back-link">
     ← Back to Dashboard
 </a>
 
-</main>
-
-<footer class="site-footer">
-  <p>&copy; <?= date('Y') ?> THE RIVAL SOCIETY. All rights reserved.</p>
-</footer>
+</section>
 
 </body>
 </html>

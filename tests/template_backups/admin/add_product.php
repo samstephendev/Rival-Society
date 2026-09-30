@@ -83,65 +83,55 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 }
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Add Product | Rival Society</title>
-<link rel="stylesheet" href="<?= url('/assets/base.css') ?>">
 <link rel="stylesheet" href="<?= url('/admin/style.css') ?>">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 </head>
 <body>
 
-<main class="container">
-    <h2>Add New Product</h2>
+<div class="container">
+    <h2>Add Product</h2>
 
     <?php if ($message): ?>
-        <div class="alert <?= $messageType === 'success' ? 'alert-success' : 'alert-error' ?>">
+        <p style="color: <?= $messageType === 'success' ? '#4cff4c' : '#ff4c4c' ?>;">
             <?= htmlspecialchars($message, ENT_QUOTES, 'UTF-8') ?>
-        </div>
+        </p>
     <?php endif; ?>
 
     <form method="POST" enctype="multipart/form-data">
         <?= csrf_field() ?>
-        <label for="prod-name">Product Name</label>
-        <input id="prod-name" type="text" name="name" placeholder="e.g. Naruto Sage Mode Heavyweight Tee" required maxlength="255">
+        <input type="text" name="name" placeholder="Product Name" required maxlength="255">
+        <input type="number" step="0.01" min="0.01" name="price" placeholder="Price (₹)" required>
+        <input type="number" name="stock" min="0" placeholder="Stock Quantity" required>
 
-        <label for="prod-price">Price (₹ INR)</label>
-        <input id="prod-price" type="number" step="0.01" min="0.01" name="price" placeholder="1499.00" required>
-
-        <label for="prod-stock">Stock Quantity</label>
-        <input id="prod-stock" type="number" name="stock" min="0" placeholder="25" required>
-
-        <label for="prod-status">Catalog Status</label>
-        <select id="prod-status" name="status">
-            <option value="active">Active (Visible in Store)</option>
-            <option value="inactive">Inactive (Hidden)</option>
+        <label>Status</label>
+        <select name="status">
+            <option value="active">Active</option>
+            <option value="inactive">Inactive</option>
         </select>
 
-        <label for="prod-new">Show "NEW" Badge?</label>
-        <select id="prod-new" name="is_new">
-            <option value="1">Yes (Display NEW badge)</option>
+        <label>New Product Badge?</label>
+        <select name="is_new">
+            <option value="1">Yes (Show NEW badge)</option>
             <option value="0">No</option>
         </select>
 
-        <label for="prod-front">Front Image (JPG, PNG, WebP max 5MB)</label>
-        <input id="prod-front" type="file" name="image_front" accept="image/jpeg,image/png,image/webp" required>
+        <label>Front Image (JPG, PNG, WebP max 5MB)</label>
+        <input type="file" name="image_front" accept="image/jpeg,image/png,image/webp" required>
 
-        <label for="prod-back">Back Image (JPG, PNG, WebP max 5MB)</label>
-        <input id="prod-back" type="file" name="image_back" accept="image/jpeg,image/png,image/webp" required>
+        <label>Back Image (JPG, PNG, WebP max 5MB)</label>
+        <input type="file" name="image_back" accept="image/jpeg,image/png,image/webp" required>
 
-        <button type="submit" class="btn primary">
-            <i class="fas fa-plus" style="margin-right: 8px;"></i> Add Product to Catalog
-        </button>
+        <button type="submit">Add Product</button>
     </form>
 
-    <p style="margin-top: 24px;">
-        <a href="<?= url('/admin/dashboard.php') ?>" class="back-link">← Back to Dashboard</a>
+    <p style="margin-top: 20px;">
+        <a href="<?= url('/admin/dashboard.php') ?>">← Back to Dashboard</a>
     </p>
-</main>
+</div>
 
 </body>
 </html>

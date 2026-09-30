@@ -87,34 +87,29 @@ $_SESSION['razorpay_order_id'] = $razorpayOrderId;
 <meta charset="UTF-8">
 <title>Pay Now | Rival Society</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="<?= url('/assets/base.css') ?>">
 <link rel="stylesheet" href="<?= url('/assets/style.css') ?>">
 <link rel="stylesheet" href="<?= url('/cart/style.css') ?>">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 </head>
 <body class="body">
 
-<main class="checkout-section">
+<section class="checkout-section">
 <div class="checkout-card" style="text-align: center;">
     <h1>Proceeding to Payment</h1>
-    <p style="color: var(--rs-text-muted); margin: 15px 0;">Order #<?= htmlspecialchars((string)$orderId, ENT_QUOTES, 'UTF-8') ?></p>
-    <div style="font-size: var(--font-2xl); font-weight: 800; color: #ffffff; margin-bottom: 25px;">
-        Total: <span style="color: var(--rs-cyan);">₹<?= number_format((float)$order['total'], 2) ?></span>
+    <p style="color: #aaa; margin: 15px 0;">Order #<?= htmlspecialchars((string)$orderId, ENT_QUOTES, 'UTF-8') ?></p>
+    <div style="font-size: 24px; font-weight: bold; color: #fff; margin-bottom: 25px;">
+        Total: ₹<?= number_format((float)$order['total'], 2) ?>
     </div>
 
-    <button id="rzp-button" class="btn primary checkout-btn">
-        <i class="fas fa-lock" style="margin-right: 8px;"></i> Open Payment Gateway
+    <button id="rzp-button" class="btn primary" style="width: 100%; padding: 14px; font-size: 16px;">
+        Open Payment Gateway
     </button>
 
-    <div style="margin-top: 24px;">
-        <a href="<?= url('/cart/view.php') ?>" class="back-link">
-            Cancel and Return to Cart
-        </a>
+    <div style="margin-top: 20px;">
+        <a href="<?= url('/cart/view.php') ?>" style="color: #888; text-decoration: none;">Cancel and Return to Cart</a>
     </div>
 </div>
-</main>
+</section>
 
 <script>
 const VERIFY_URL = "<?= url('/payment/verify.php') ?>";

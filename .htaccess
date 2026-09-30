@@ -1,4 +1,6 @@
 # Rival Society Apache Configuration
+DirectoryIndex index.php page.php
+
 <FilesMatch "(\.env|\.sql|config\.local\.php)$">
     Require all denied
 </FilesMatch>

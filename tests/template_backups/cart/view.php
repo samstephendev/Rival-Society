@@ -49,27 +49,36 @@ if (!empty($cart)) {
 <meta charset="UTF-8">
 <title>Your Cart | Rival Society</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="<?= url('/assets/base.css') ?>">
 <link rel="stylesheet" href="<?= url('/assets/style.css') ?>">
 <link rel="stylesheet" href="<?= url('/cart/style.css') ?>">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+.remove-btn {
+    background: transparent;
+    border: none;
+    color: #ff4c4c;
+    cursor: pointer;
+    font-size: 13px;
+    margin-left: 10px;
+    padding: 0;
+}
+.remove-btn:hover {
+    text-decoration: underline;
+}
+</style>
 </head>
 <body>
 
-<main class="cart-section">
-<h1>Your Shopping Cart</h1>
+<section class="cart-section">
+<h1>Your Cart</h1>
 
 <?php if (empty($cart)): ?>
-    <div class="empty-cart">
-        <p>Your shopping cart is currently empty.</p>
-        <div class="cart-actions" style="margin-top: 24px; justify-content: center;">
-            <a href="<?= url('/page.php#store') ?>" class="btn primary">Explore The Store</a>
-        </div>
+    <p class="empty-cart">Your cart is empty.</p>
+    <div class="cart-actions" style="margin-top: 20px;">
+        <a href="<?= url('/page.php#store') ?>" class="btn">Browse Store</a>
     </div>
 <?php else: ?>
 
-<table class="cart-table" aria-label="Shopping Cart Items">
+<table class="cart-table">
 <thead>
 <tr>
     <th>Product</th>
@@ -86,14 +95,14 @@ if (!empty($cart)) {
 ?>
 <tr>
     <td>
-        <img src="<?= url('/assets/images/' . htmlspecialchars($item['image'], ENT_QUOTES, 'UTF-8')) ?>" class="cart-img" alt="<?= htmlspecialchars($item['name'], ENT_QUOTES, 'UTF-8') ?>" width="72" height="72">
-        <strong><?= htmlspecialchars($item['name'], ENT_QUOTES, 'UTF-8') ?></strong>
+        <img src="<?= url('/assets/images/' . htmlspecialchars($item['image'], ENT_QUOTES, 'UTF-8')) ?>" class="cart-img" alt="<?= htmlspecialchars($item['name'], ENT_QUOTES, 'UTF-8') ?>">
+        <?= htmlspecialchars($item['name'], ENT_QUOTES, 'UTF-8') ?>
     </td>
 
     <td><?= htmlspecialchars($item['size'], ENT_QUOTES, 'UTF-8') ?></td>
 
     <td>
-        <div class="qty-box" role="group" aria-label="Adjust Item Quantity">
+        <div class="qty-box">
             <button type="button" class="qty-btn minus" data-key="<?= htmlspecialchars($key, ENT_QUOTES, 'UTF-8') ?>" aria-label="Decrease quantity">−</button>
             <span class="qty-value"><?= (int)$item['quantity'] ?></span>
             <button type="button" class="qty-btn plus" data-key="<?= htmlspecialchars($key, ENT_QUOTES, 'UTF-8') ?>" aria-label="Increase quantity">+</button>
@@ -106,9 +115,7 @@ if (!empty($cart)) {
         <form action="<?= url('/cart/remove_from_cart.php') ?>" method="POST" style="display:inline;">
             <?= csrf_field() ?>
             <input type="hidden" name="cart_key" value="<?= htmlspecialchars($key, ENT_QUOTES, 'UTF-8') ?>">
-            <button type="submit" class="remove-btn" onclick="return confirm('Remove this item?');" aria-label="Remove item from cart">
-                <i class="fas fa-trash-can"></i> Remove
-            </button>
+            <button type="submit" class="remove-btn" onclick="return confirm('Remove this item?');">Remove</button>
         </form>
     </td>
 </tr>
@@ -122,20 +129,12 @@ if (!empty($cart)) {
 </table>
 
 <div class="cart-actions">
-    <a href="<?= url('/page.php#store') ?>" class="btn secondary">
-        <i class="fas fa-arrow-left"></i> Continue Shopping
-    </a>
-    <a href="<?= url('/cart/checkout.php') ?>" class="btn primary">
-        Proceed to Checkout <i class="fas fa-arrow-right"></i>
-    </a>
+    <a href="<?= url('/page.php#store') ?>" class="btn">Continue Shopping</a>
+    <a href="<?= url('/cart/checkout.php') ?>" class="btn primary">Checkout</a>
 </div>
 
 <?php endif; ?>
-</main>
-
-<footer class="site-footer">
-  <p>&copy; <?= date('Y') ?> THE RIVAL SOCIETY. All rights reserved.</p>
-</footer>
+</section>
 
 <script>
 const CSRF_TOKEN = "<?= htmlspecialchars(csrf_token(), ENT_QUOTES, 'UTF-8') ?>";

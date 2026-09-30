@@ -34,120 +34,53 @@ $status = $order['payment_status'];
 <meta charset="UTF-8">
 <title>Order Status | Rival Society</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="<?= url('/assets/base.css') ?>">
 <link rel="stylesheet" href="<?= url('/assets/style.css') ?>">
-<style>
-.success-section {
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: #0e0e0e;
-    padding: 20px;
-}
-.success-card {
-    background: #151515;
-    border: 1px solid #333;
-    border-radius: 14px;
-    padding: 40px;
-    max-width: 440px;
-    width: 100%;
-    text-align: center;
-    box-shadow: 0 0 30px rgba(0,0,0,0.6);
-}
-.success-card h1 {
-    margin-bottom: 10px;
-    font-size: 26px;
-}
-.status-paid h1 { color: #4cff4c; }
-.status-pending h1 { color: #f5c542; }
-.status-failed h1 { color: #ff4c4c; }
-.order-id {
-    background: #000;
-    border: 1px solid #333;
-    padding: 12px;
-    border-radius: 8px;
-    margin: 20px 0;
-    color: #fff;
-    font-weight: 600;
-}
-.status-badge {
-    display: inline-block;
-    padding: 6px 14px;
-    border-radius: 20px;
-    font-size: 14px;
-    font-weight: bold;
-    text-transform: uppercase;
-}
-.badge-paid { background: #163; color: #4cff4c; }
-.badge-pending { background: #332b00; color: #f5c542; }
-.badge-failed { background: #400; color: #ff4c4c; }
-.success-actions {
-    display: flex;
-    gap: 12px;
-    flex-direction: column;
-    margin-top: 25px;
-}
-.success-actions a {
-    text-decoration: none;
-    padding: 12px;
-    border-radius: 8px;
-    font-weight: 600;
-    transition: 0.3s;
-}
-.success-actions .primary {
-    background: #fff;
-    color: #000;
-}
-.success-actions .primary:hover {
-    background: #eaeaea;
-}
-.success-actions .secondary {
-    background: transparent;
-    border: 1px solid #444;
-    color: #aaa;
-}
-.success-actions .secondary:hover {
-    border-color: #666;
-    color: #fff;
-}
-</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 </head>
 <body>
 
-<section class="success-section">
+<main class="success-section">
     <div class="success-card status-<?= htmlspecialchars($status, ENT_QUOTES, 'UTF-8') ?>">
         <?php if ($status === 'paid'): ?>
             <h1>Payment Successful!</h1>
-            <p style="color:#aaa;">Thank you for your purchase with Rival Society.</p>
+            <p style="color: var(--rs-text-secondary); margin-top: 8px;">Thank you for your purchase with Rival Society.</p>
         <?php elseif ($status === 'pending'): ?>
             <h1>Order Pending</h1>
-            <p style="color:#aaa;">Your payment is being processed.</p>
+            <p style="color: var(--rs-text-secondary); margin-top: 8px;">Your payment is being processed.</p>
         <?php else: ?>
             <h1>Payment Incomplete</h1>
-            <p style="color:#aaa;">The payment was not completed or failed verification.</p>
+            <p style="color: var(--rs-text-secondary); margin-top: 8px;">The payment was not completed or failed verification.</p>
         <?php endif; ?>
 
         <div class="order-id">
             Order ID: <strong>#<?= htmlspecialchars((string)$order['id'], ENT_QUOTES, 'UTF-8') ?></strong><br>
-            Total: <strong>₹<?= number_format((float)$order['total'], 2) ?></strong>
+            Total Amount: <strong>₹<?= number_format((float)$order['total'], 2) ?></strong>
         </div>
 
-        <p>Status: <span class="status-badge badge-<?= htmlspecialchars($status, ENT_QUOTES, 'UTF-8') ?>"><?= htmlspecialchars(ucfirst($status), ENT_QUOTES, 'UTF-8') ?></span></p>
+        <p style="margin: 16px 0;">
+            Status: <span class="status-badge badge-<?= htmlspecialchars($status, ENT_QUOTES, 'UTF-8') ?>"><?= htmlspecialchars(ucfirst($status), ENT_QUOTES, 'UTF-8') ?></span>
+        </p>
 
         <?php if (!empty($order['razorpay_payment_id'])): ?>
-            <p style="color:#777; font-size: 12px; margin-top: 5px;">Payment ID: <?= htmlspecialchars($order['razorpay_payment_id'], ENT_QUOTES, 'UTF-8') ?></p>
+            <p style="color: var(--rs-text-dim); font-size: 13px; margin-top: 6px;">Payment ID: <?= htmlspecialchars($order['razorpay_payment_id'], ENT_QUOTES, 'UTF-8') ?></p>
         <?php endif; ?>
 
         <div class="success-actions">
-            <a href="<?= url('/account/orders.php') ?>" class="primary">
-                View My Orders
+            <a href="<?= url('/account/orders.php') ?>" class="btn primary">
+                <i class="fas fa-box" style="margin-right: 8px;"></i> View My Orders
             </a>
-            <a href="<?= url('/page.php#store') ?>" class="secondary">
-                Continue Shopping
+            <a href="<?= url('/page.php#store') ?>" class="btn secondary">
+                <i class="fas fa-store" style="margin-right: 8px;"></i> Continue Shopping
             </a>
         </div>
     </div>
-</section>
+</main>
+
+<footer class="site-footer">
+  <p>&copy; <?= date('Y') ?> THE RIVAL SOCIETY. All rights reserved.</p>
+</footer>
 
 </body>
 </html>

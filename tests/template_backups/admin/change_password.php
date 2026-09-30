@@ -55,45 +55,34 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 }
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="<?= url('/assets/base.css') ?>">
 <link rel="stylesheet" href="<?= url('/admin/style.css') ?>">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 <title>Change Password | Rival Society</title>
 </head>
 <body>
 
-<main class="container" style="max-width: 520px;">
+<div class="container">
     <h2>Change Admin Password</h2>
 
-    <p><a href="<?= url('/admin/dashboard.php') ?>" class="back-link">← Back to Dashboard</a></p>
+    <p><a href="<?= url('/admin/dashboard.php') ?>">← Back to Dashboard</a></p>
 
     <?php if ($message): ?>
-        <div class="alert <?= $messageType === 'success' ? 'alert-success' : 'alert-error' ?>">
+        <p style="color: <?= $messageType === 'success' ? '#4cff4c' : '#ff4c4c' ?>;">
             <?= htmlspecialchars($message, ENT_QUOTES, 'UTF-8') ?>
-        </div>
+        </p>
     <?php endif; ?>
 
     <form method="POST">
         <?= csrf_field() ?>
-        <label for="cur-pass">Current Password</label>
-        <input id="cur-pass" type="password" name="current_password" placeholder="Enter current password" required autocomplete="current-password">
-
-        <label for="new-pass">New Password (minimum 4 characters)</label>
-        <input id="new-pass" type="password" name="new_password" placeholder="Enter new password" minlength="4" required autocomplete="new-password">
-
-        <label for="conf-pass">Confirm New Password</label>
-        <input id="conf-pass" type="password" name="confirm_password" placeholder="Confirm new password" minlength="4" required autocomplete="new-password">
-
-        <button type="submit" class="btn primary">
-            <i class="fas fa-key" style="margin-right: 8px;"></i> Update Admin Password
-        </button>
+        <input type="password" name="current_password" placeholder="Current Password" required>
+        <input type="password" name="new_password" placeholder="New Password (min 4 characters)" minlength="4" required>
+        <input type="password" name="confirm_password" placeholder="Confirm New Password" minlength="4" required>
+        <button type="submit">Update Password</button>
     </form>
-</main>
+</div>
 
 </body>
 </html>

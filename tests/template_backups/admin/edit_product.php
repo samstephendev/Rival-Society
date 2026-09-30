@@ -52,68 +52,63 @@ try {
 }
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Edit Products | Rival Society</title>
-<link rel="stylesheet" href="<?= url('/assets/base.css') ?>">
 <link rel="stylesheet" href="<?= url('/admin/style.css') ?>">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 </head>
 <body>
 
-<main class="container">
-    <h2>Edit Catalog Products</h2>
+<div class="container">
+    <h2>Edit Products</h2>
 
-    <p><a href="<?= url('/admin/dashboard.php') ?>" class="back-link">← Back to Dashboard</a></p>
+    <p><a href="<?= url('/admin/dashboard.php') ?>">← Back to Dashboard</a></p>
 
     <?php if ($message): ?>
-        <div class="alert <?= $messageType === 'success' ? 'alert-success' : 'alert-error' ?>">
+        <p style="color: <?= $messageType === 'success' ? '#4cff4c' : '#ff4c4c' ?>;">
             <?= htmlspecialchars($message, ENT_QUOTES, 'UTF-8') ?>
-        </div>
+        </p>
     <?php endif; ?>
 
     <?php foreach ($products as $p): ?>
-    <form method="POST" class="product-row" style="background: var(--rs-surface-elevated); padding: 20px; border-radius: var(--radius-lg); margin-bottom: 25px;">
+    <form method="POST" style="background: #252525; padding: 15px; border-radius: 8px; margin-bottom: 25px;">
         <?= csrf_field() ?>
         <input type="hidden" name="id" value="<?= (int)$p['id'] ?>">
 
-        <label>Product ID #<?= (int)$p['id'] ?> — Name</label>
+        <label style="color:#aaa; font-size:12px;">Product ID #<?= (int)$p['id'] ?></label>
         <input type="text" name="name" value="<?= htmlspecialchars($p['name'], ENT_QUOTES, 'UTF-8') ?>" required>
         
-        <label>Price (₹ INR)</label>
+        <label style="color:#aaa; font-size:12px;">Price (₹)</label>
         <input type="number" step="0.01" min="0.01" name="price" value="<?= number_format((float)$p['price'], 2, '.', '') ?>" required>
         
-        <label>Inventory Stock</label>
+        <label style="color:#aaa; font-size:12px;">Stock</label>
         <input type="number" name="stock" min="0" value="<?= (int)$p['stock'] ?>" required>
 
-        <label>Status</label>
+        <label style="color:#aaa; font-size:12px;">Status</label>
         <select name="status">
             <option value="active" <?= $p['status'] === "active" ? "selected" : "" ?>>Active</option>
             <option value="inactive" <?= $p['status'] === "inactive" ? "selected" : "" ?>>Inactive</option>
         </select>
 
-        <label>Badge</label>
+        <label style="color:#aaa; font-size:12px;">Badge</label>
         <select name="is_new">
             <option value="1" <?= !empty($p['is_new']) ? "selected" : "" ?>>New</option>
             <option value="0" <?= empty($p['is_new']) ? "selected" : "" ?>>Standard</option>
         </select>
 
-        <div style="display: flex; gap: 12px; margin: 10px 0;">
-            <img src="<?= url('/assets/images/' . htmlspecialchars($p['image_front'], ENT_QUOTES, 'UTF-8')) ?>" width="72" height="72" alt="Front Preview" style="border-radius: var(--radius-md); object-fit: cover; border: 1px solid var(--rs-border);">
-            <img src="<?= url('/assets/images/' . htmlspecialchars($p['image_back'], ENT_QUOTES, 'UTF-8')) ?>" width="72" height="72" alt="Back Preview" style="border-radius: var(--radius-md); object-fit: cover; border: 1px solid var(--rs-border);">
+        <div style="margin: 10px 0;">
+            <img src="<?= url('/assets/images/' . htmlspecialchars($p['image_front'], ENT_QUOTES, 'UTF-8')) ?>" width="70" alt="Front" style="border-radius:4px; margin-right:8px;">
+            <img src="<?= url('/assets/images/' . htmlspecialchars($p['image_back'], ENT_QUOTES, 'UTF-8')) ?>" width="70" alt="Back" style="border-radius:4px;">
         </div>
 
-        <button type="submit" class="btn primary">
-            <i class="fas fa-check" style="margin-right: 8px;"></i> Update Product #<?= (int)$p['id'] ?>
-        </button>
+        <button type="submit">Update Product</button>
     </form>
     <?php endforeach; ?>
 
-    <p style="margin-top: 24px;"><a href="<?= url('/admin/dashboard.php') ?>" class="back-link">← Back to Dashboard</a></p>
-</main>
+    <p><a href="<?= url('/admin/dashboard.php') ?>">← Back to Dashboard</a></p>
+</div>
 
 </body>
 </html>
