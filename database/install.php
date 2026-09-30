@@ -84,6 +84,19 @@ function executeSqlFile(mysqli $conn, string $filepath, string $name): void {
 echo "[3/6] Applying schema from database/schema.sql...\n";
 try {
     executeSqlFile($conn, __DIR__ . '/schema.sql', 'schema.sql');
+    
+    // Idempotent column migrations for existing tables
+    $colCheck = $conn->query("
+        SELECT COLUMN_NAME 
+        FROM INFORMATION_SCHEMA.COLUMNS 
+        WHERE TABLE_SCHEMA = '{$db}' 
+          AND TABLE_NAME = 'orders' 
+          AND COLUMN_NAME = 'payment_method'
+    ");
+    if (!$colCheck || $colCheck->num_rows === 0) {
+        $conn->query("ALTER TABLE orders ADD COLUMN payment_method VARCHAR(20) NULL DEFAULT NULL AFTER razorpay_payment_id");
+    }
+
     echo "  -> Schema created / verified successfully.\n";
 } catch (Exception $e) {
     die("  [FATAL ERROR] Schema application failed: " . $e->getMessage() . "\n");

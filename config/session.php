@@ -19,11 +19,41 @@ function is_https(): bool {
 
 // Helper to generate full URLs using BASE_URL
 function url(string $path = ''): string {
-    $base = defined('BASE_URL') ? BASE_URL : '/rivalsociety';
+    $base = defined('BASE_URL') ? BASE_URL : '';
     if ($path === '' || $path === '/') {
-        return $base . '/';
+        return $base === '' ? '/' : $base . '/';
     }
-    return $base . '/' . ltrim($path, '/');
+    return ($base === '' ? '' : $base) . '/' . ltrim($path, '/');
+}
+
+/** Site-relative URL with filemtime cache-busting for local files. */
+function asset_url(string $path): string {
+    $path = ltrim($path, '/');
+    $query = '';
+    $qpos = strpos($path, '?');
+    if ($qpos !== false) {
+        $query = substr($path, $qpos + 1);
+        $path = substr($path, 0, $qpos);
+    }
+
+    $fs = dirname(__DIR__) . DIRECTORY_SEPARATOR . str_replace('/', DIRECTORY_SEPARATOR, $path);
+    $url = url('/' . $path);
+    $params = [];
+    if ($query !== '') {
+        parse_str($query, $params);
+    }
+    if (is_file($fs)) {
+        $params['v'] = (string) filemtime($fs);
+    }
+    if ($params) {
+        $url .= '?' . http_build_query($params);
+    }
+    return $url;
+}
+
+/** Minimal inline styles so a missing stylesheet never leaves a blank unstyled page. */
+function rs_critical_css(): void {
+    echo '<style id="rs-critical">html{color-scheme:dark}body{margin:0;background:#09090b;color:#fff;font-family:Montserrat,system-ui,sans-serif;line-height:1.6}img{max-width:100%;height:auto}</style>';
 }
 
 // Start session with secure cookie parameters

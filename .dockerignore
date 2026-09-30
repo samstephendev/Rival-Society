@@ -1,0 +1,5 @@
+.git
+tests
+.env
+payment/key.env
+config/config.local.php

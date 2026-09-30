@@ -11,6 +11,8 @@ return [
         'name' => 'shop_db',
     ],
     'app' => [
-        'base_url' => '/rivalsociety',
+        // Leave empty to auto-detect (subdirectory locally, '' at domain root).
+        // Set explicitly only when auto-detect cannot see SCRIPT_NAME (rare).
+        'base_url' => '',
     ],
 ];

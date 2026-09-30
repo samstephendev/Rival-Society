@@ -23,6 +23,16 @@ if (!$product) {
     http_response_code(404);
     die("Product unavailable. <a href='" . url('/page.php#store') . "'>Back to Store</a>");
 }
+
+$msgCode = $_GET['msg'] ?? '';
+$serverMessages = [
+    'size'  => ['text' => 'Please select a size', 'type' => 'error'],
+    'stock' => ['text' => 'Selected product is currently out of stock', 'type' => 'error'],
+    'qty'   => ['text' => 'Please choose a valid quantity', 'type' => 'error'],
+    'csrf'  => ['text' => 'Session expired. Please try again', 'type' => 'error'],
+    'added' => ['text' => 'Added to cart successfully', 'type' => 'success'],
+];
+$activeNotice = $serverMessages[$msgCode] ?? null;
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -30,10 +40,12 @@ if (!$product) {
 <meta charset="UTF-8">
 <title><?= htmlspecialchars($product['name'], ENT_QUOTES, 'UTF-8') ?> | Rival Society</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="<?= url('/assets/base.css') ?>">
-<link rel="stylesheet" href="<?= url('/assets/style.css') ?>">
+<?php rs_critical_css(); ?>
+<link rel="stylesheet" href="<?= asset_url('/assets/base.css') ?>">
+<link rel="stylesheet" href="<?= asset_url('/assets/style.css') ?>">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<script src="<?= asset_url('/assets/toast.js') ?>"></script>
 </head>
 <body>
 
@@ -57,7 +69,7 @@ if (!$product) {
 
     <?php if (isset($_SESSION['cust_user_id'])): ?>
       <?php if ((int)$product['stock'] > 0): ?>
-        <form action="<?= url('/cart/add_to_cart.php') ?>" method="POST" class="product-form">
+        <form action="<?= url('/cart/add_to_cart.php') ?>" method="POST" class="product-form" id="addToCartForm" novalidate>
             <?= csrf_field() ?>
             <input type="hidden" name="product_id" value="<?= (int)$product['id'] ?>">
 
@@ -101,6 +113,56 @@ if (!$product) {
 <footer class="site-footer">
   <p>&copy; <?= date('Y') ?> THE RIVAL SOCIETY. All rights reserved.</p>
 </footer>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    // Show active server message if present in query string
+    <?php if ($activeNotice): ?>
+    if (window.showToast) {
+        window.showToast(<?= json_encode($activeNotice['text'], JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP) ?>, <?= json_encode($activeNotice['type']) ?>);
+    }
+    <?php endif; ?>
+
+    const form = document.getElementById('addToCartForm');
+    if (!form) return;
+
+    const sizeGroup = form.querySelector('.size-buttons');
+    const sizeRadios = form.querySelectorAll('input[name="size"]');
+
+    sizeRadios.forEach(radio => {
+        radio.addEventListener('change', () => {
+            if (sizeGroup) {
+                sizeGroup.classList.remove('size-highlight');
+            }
+        });
+    });
+
+    form.addEventListener('submit', (e) => {
+        let sizeSelected = false;
+        sizeRadios.forEach(r => {
+            if (r.checked) sizeSelected = true;
+        });
+
+        if (!sizeSelected) {
+            e.preventDefault();
+            if (window.showToast) {
+                window.showToast("Please select a size", "error");
+            }
+            if (sizeGroup) {
+                sizeGroup.classList.remove('size-highlight');
+                // trigger reflow for re-animation
+                void sizeGroup.offsetWidth;
+                sizeGroup.classList.add('size-highlight');
+            }
+            const firstRadio = document.getElementById('size-S');
+            if (firstRadio) {
+                firstRadio.focus();
+            }
+            return false;
+        }
+    });
+});
+</script>
 
 </body>
 </html>

@@ -57,8 +57,9 @@ try {
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Edit Products | Rival Society</title>
-<link rel="stylesheet" href="<?= url('/assets/base.css') ?>">
-<link rel="stylesheet" href="<?= url('/admin/style.css') ?>">
+<?php rs_critical_css(); ?>
+<link rel="stylesheet" href="<?= asset_url('/assets/base.css') ?>">
+<link rel="stylesheet" href="<?= asset_url('/admin/style.css') ?>">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 </head>
@@ -76,32 +77,45 @@ try {
     <?php endif; ?>
 
     <?php foreach ($products as $p): ?>
-    <form method="POST" class="product-row" style="background: var(--rs-surface-elevated); padding: 20px; border-radius: var(--radius-lg); margin-bottom: 25px;">
+    <form method="POST" class="product-row">
         <?= csrf_field() ?>
         <input type="hidden" name="id" value="<?= (int)$p['id'] ?>">
 
-        <label>Product ID #<?= (int)$p['id'] ?> — Name</label>
-        <input type="text" name="name" value="<?= htmlspecialchars($p['name'], ENT_QUOTES, 'UTF-8') ?>" required>
-        
-        <label>Price (₹ INR)</label>
-        <input type="number" step="0.01" min="0.01" name="price" value="<?= number_format((float)$p['price'], 2, '.', '') ?>" required>
-        
-        <label>Inventory Stock</label>
-        <input type="number" name="stock" min="0" value="<?= (int)$p['stock'] ?>" required>
+        <div class="form-field">
+            <label for="edit_name_<?= (int)$p['id'] ?>" style="color: var(--rs-cyan);">Product ID #<?= (int)$p['id'] ?> — Name</label>
+            <input id="edit_name_<?= (int)$p['id'] ?>" type="text" name="name" value="<?= htmlspecialchars($p['name'], ENT_QUOTES, 'UTF-8') ?>" required>
+        </div>
 
-        <label>Status</label>
-        <select name="status">
-            <option value="active" <?= $p['status'] === "active" ? "selected" : "" ?>>Active</option>
-            <option value="inactive" <?= $p['status'] === "inactive" ? "selected" : "" ?>>Inactive</option>
-        </select>
+        <div class="form-grid">
+            <div class="form-field">
+                <label for="edit_price_<?= (int)$p['id'] ?>">Price (₹ INR)</label>
+                <input id="edit_price_<?= (int)$p['id'] ?>" type="number" step="0.01" min="0.01" name="price" value="<?= number_format((float)$p['price'], 2, '.', '') ?>" required>
+            </div>
+            
+            <div class="form-field">
+                <label for="edit_stock_<?= (int)$p['id'] ?>">Inventory Stock</label>
+                <input id="edit_stock_<?= (int)$p['id'] ?>" type="number" name="stock" min="0" value="<?= (int)$p['stock'] ?>" required>
+            </div>
 
-        <label>Badge</label>
-        <select name="is_new">
-            <option value="1" <?= !empty($p['is_new']) ? "selected" : "" ?>>New</option>
-            <option value="0" <?= empty($p['is_new']) ? "selected" : "" ?>>Standard</option>
-        </select>
+            <div class="form-field">
+                <label for="edit_status_<?= (int)$p['id'] ?>">Status</label>
+                <select id="edit_status_<?= (int)$p['id'] ?>" name="status">
+                    <option value="active" <?= $p['status'] === "active" ? "selected" : "" ?>>Active</option>
+                    <option value="inactive" <?= $p['status'] === "inactive" ? "selected" : "" ?>>Inactive</option>
+                </select>
+            </div>
 
-        <div style="display: flex; gap: 12px; margin: 10px 0;">
+            <div class="form-field">
+                <label for="edit_is_new_<?= (int)$p['id'] ?>">Badge</label>
+                <select id="edit_is_new_<?= (int)$p['id'] ?>" name="is_new">
+                    <option value="1" <?= !empty($p['is_new']) ? "selected" : "" ?>>New</option>
+                    <option value="0" <?= empty($p['is_new']) ? "selected" : "" ?>>Standard</option>
+                </select>
+            </div>
+        </div>
+
+        <div style="display: flex; align-items: center; gap: 16px; margin: 6px 0;">
+            <span style="font-size: var(--font-xs); color: var(--rs-text-muted); font-weight: 700; text-transform: uppercase;">Previews:</span>
             <img src="<?= url('/assets/images/' . htmlspecialchars($p['image_front'], ENT_QUOTES, 'UTF-8')) ?>" width="72" height="72" alt="Front Preview" style="border-radius: var(--radius-md); object-fit: cover; border: 1px solid var(--rs-border);">
             <img src="<?= url('/assets/images/' . htmlspecialchars($p['image_back'], ENT_QUOTES, 'UTF-8')) ?>" width="72" height="72" alt="Back Preview" style="border-radius: var(--radius-md); object-fit: cover; border: 1px solid var(--rs-border);">
         </div>

@@ -15,10 +15,12 @@ unset($_SESSION['register_error']);
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Create Account | Rival Society</title>
-<link rel="stylesheet" href="<?= url('/assets/base.css') ?>">
-<link rel="stylesheet" href="<?= url('/assets/account.css') ?>">
+<?php rs_critical_css(); ?>
+<link rel="stylesheet" href="<?= asset_url('/assets/base.css') ?>">
+<link rel="stylesheet" href="<?= asset_url('/assets/account.css') ?>">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<script src="<?= asset_url('/assets/password-toggle.js') ?>" defer></script>
 </head>
 <body>
 

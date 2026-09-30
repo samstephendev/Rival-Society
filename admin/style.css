@@ -131,8 +131,8 @@ button[type="submit"] {
   margin-top: var(--space-3);
 }
 
-/* Product Row Card (Edit & Delete Pages) */
-.product-row {
+/* Product Row Card (Delete Page) */
+div.product-row {
   background: var(--rs-surface-elevated);
   border: 1px solid var(--rs-border);
   border-radius: var(--radius-lg);
@@ -144,11 +144,49 @@ button[type="submit"] {
 }
 
 @media (min-width: 600px) {
-  .product-row {
+  div.product-row {
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
   }
+}
+
+/* Product Edit Form (Edit Products Page) */
+form.product-row {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: stretch !important;
+  gap: var(--space-4);
+  background: var(--rs-surface-elevated);
+  border: 1px solid var(--rs-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+  margin-bottom: var(--space-6);
+}
+
+form.product-row .form-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+form.product-row .form-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-4);
+}
+
+@media (min-width: 580px) {
+  form.product-row .form-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+form.product-row input[type="text"],
+form.product-row input[type="number"],
+form.product-row select {
+  width: 100% !important;
+  box-sizing: border-box;
 }
 
 .product-row strong {

@@ -53,6 +53,7 @@ CREATE TABLE IF NOT EXISTS `orders` (
   `payment_status` ENUM('pending','paid','failed') NOT NULL DEFAULT 'pending',
   `razorpay_order_id` VARCHAR(255) NULL DEFAULT NULL,
   `razorpay_payment_id` VARCHAR(255) NULL DEFAULT NULL,
+  `payment_method` VARCHAR(20) NULL DEFAULT NULL,
   `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   INDEX `idx_orders_user_id` (`user_id`),
   INDEX `idx_orders_razorpay_order_id` (`razorpay_order_id`),

@@ -65,9 +65,10 @@ $_SESSION['checkout_total'] = $verifiedTotal;
 <meta charset="UTF-8">
 <title>Checkout | Rival Society</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="<?= url('/assets/base.css') ?>">
-<link rel="stylesheet" href="<?= url('/assets/style.css') ?>">
-<link rel="stylesheet" href="<?= url('/cart/style.css') ?>">
+<?php rs_critical_css(); ?>
+<link rel="stylesheet" href="<?= asset_url('/assets/base.css') ?>">
+<link rel="stylesheet" href="<?= asset_url('/assets/style.css') ?>">
+<link rel="stylesheet" href="<?= asset_url('/cart/style.css') ?>">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 </head>
@@ -83,6 +84,23 @@ $_SESSION['checkout_total'] = $verifiedTotal;
         <?php foreach ($stockErrors as $err): ?>
             <p><?= htmlspecialchars($err, ENT_QUOTES, 'UTF-8') ?></p>
         <?php endforeach; ?>
+    </div>
+<?php endif; ?>
+
+<?php
+$checkoutError = $_SESSION['checkout_error'] ?? null;
+unset($_SESSION['checkout_error']);
+if (isset($_GET['error'])) {
+    if ($_GET['error'] === 'csrf') {
+        $checkoutError = 'Security session expired (CSRF). Please try again.';
+    } elseif ($_GET['error'] === 'missing_fields') {
+        $checkoutError = 'Please fill out all required fields before proceeding.';
+    }
+}
+?>
+<?php if ($checkoutError): ?>
+    <div class="alert alert-error">
+        <p><?= htmlspecialchars($checkoutError, ENT_QUOTES, 'UTF-8') ?></p>
     </div>
 <?php endif; ?>
 

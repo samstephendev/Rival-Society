@@ -49,11 +49,13 @@ if (!empty($cart)) {
 <meta charset="UTF-8">
 <title>Your Cart | Rival Society</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="<?= url('/assets/base.css') ?>">
-<link rel="stylesheet" href="<?= url('/assets/style.css') ?>">
-<link rel="stylesheet" href="<?= url('/cart/style.css') ?>">
+<?php rs_critical_css(); ?>
+<link rel="stylesheet" href="<?= asset_url('/assets/base.css') ?>">
+<link rel="stylesheet" href="<?= asset_url('/assets/style.css') ?>">
+<link rel="stylesheet" href="<?= asset_url('/cart/style.css') ?>">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<script src="<?= asset_url('/assets/toast.js') ?>"></script>
 </head>
 <body>
 
@@ -86,8 +88,10 @@ if (!empty($cart)) {
 ?>
 <tr>
     <td>
-        <img src="<?= url('/assets/images/' . htmlspecialchars($item['image'], ENT_QUOTES, 'UTF-8')) ?>" class="cart-img" alt="<?= htmlspecialchars($item['name'], ENT_QUOTES, 'UTF-8') ?>" width="72" height="72">
-        <strong><?= htmlspecialchars($item['name'], ENT_QUOTES, 'UTF-8') ?></strong>
+        <a href="<?= url('/product.php?id=' . (int)$item['id']) ?>" class="cart-product-link" style="display: inline-flex; align-items: center; gap: 14px; text-decoration: none; color: inherit;" aria-label="View <?= htmlspecialchars($item['name'], ENT_QUOTES, 'UTF-8') ?> details">
+            <img src="<?= url('/assets/images/' . htmlspecialchars($item['image'], ENT_QUOTES, 'UTF-8')) ?>" class="cart-img" alt="<?= htmlspecialchars($item['name'], ENT_QUOTES, 'UTF-8') ?>" width="72" height="72">
+            <strong><?= htmlspecialchars($item['name'], ENT_QUOTES, 'UTF-8') ?></strong>
+        </a>
     </td>
 
     <td><?= htmlspecialchars($item['size'], ENT_QUOTES, 'UTF-8') ?></td>
@@ -164,6 +168,14 @@ document.querySelectorAll('.qty-btn').forEach(btn => {
         .catch(() => location.reload());
     });
 });
+
+<?php if (($_GET['msg'] ?? '') === 'added'): ?>
+document.addEventListener('DOMContentLoaded', () => {
+    if (window.showToast) {
+        window.showToast('Item added to cart successfully', 'success');
+    }
+});
+<?php endif; ?>
 </script>
 
 </body>

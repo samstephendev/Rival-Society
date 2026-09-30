@@ -1,3 +1,5 @@
 /test.js
 config/config.local.php
 payment/key.env
+.env
+.env.*

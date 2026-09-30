@@ -25,6 +25,8 @@ $userId            = (int)$_SESSION['cust_user_id'];
 $razorpayPaymentId = trim($_POST['razorpay_payment_id'] ?? '');
 $razorpayOrderId   = trim($_POST['razorpay_order_id'] ?? '');
 $razorpaySignature = trim($_POST['razorpay_signature'] ?? '');
+$keys = get_razorpay_config();
+$useLocalMock = empty($keys['key_id']) || empty($keys['key_secret']) || str_starts_with($keys['key_id'], 'rzp_test_Your') || str_contains($keys['key_id'], 'XXXXXXXX') || str_contains($keys['key_id'], 'YOUR_');
 
 if (empty($razorpayPaymentId) || empty($razorpayOrderId)) {
     http_response_code(400);
@@ -55,14 +57,16 @@ try {
     }
 
     // 2. Verify Razorpay signature
-    $keys = get_razorpay_config();
     $keyId = $keys['key_id'];
     $keySecret = $keys['key_secret'];
 
     $signatureValid = false;
 
-    // Check if test mode mock
-    if (str_starts_with($razorpayOrderId, 'order_mock_') && (str_starts_with($keyId, 'rzp_test_Your') || empty($keySecret))) {
+    if ($useLocalMock && str_starts_with($razorpayOrderId, 'order_mock_')) {
+        $isMockPaymentId = str_starts_with($razorpayPaymentId, 'pay_mock_') || str_starts_with($razorpayPaymentId, 'pay_test_');
+        $isMockSignature = str_starts_with($razorpaySignature, 'mock_signature_') || $razorpaySignature === 'test_sig';
+        $signatureValid = $isMockPaymentId && $isMockSignature && !empty($razorpayPaymentId) && !empty($razorpaySignature);
+    } elseif (str_starts_with($razorpayOrderId, 'order_mock_') && (str_starts_with($keyId, 'rzp_test_Your') || empty($keySecret))) {
         // Accept mock verification unless an explicit invalid test signature is provided
         $signatureValid = ($razorpaySignature !== 'invalid_signature_hash' && !empty($razorpaySignature));
     } else {

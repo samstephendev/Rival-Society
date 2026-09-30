@@ -13,17 +13,28 @@ if (!isset($_SESSION['cust_user_id'])) {
 }
 
 if (!csrf_verify()) {
-    header("Location: " . url('/page.php#store'));
+    $target = $productId > 0 ? url('/product.php?id=' . $productId . '&msg=csrf') : url('/page.php#store');
+    header("Location: " . $target);
     exit;
 }
 
 $productId = (int)($_POST['product_id'] ?? 0);
 $size      = strtoupper(trim($_POST['size'] ?? ''));
-$quantity  = max(1, (int)($_POST['quantity'] ?? 1));
+$quantity  = (int)($_POST['quantity'] ?? 1);
+
+if ($productId <= 0) {
+    header("Location: " . url('/page.php#store'));
+    exit;
+}
 
 $allowedSizes = ['S', 'M', 'L', 'XL', 'XXL'];
-if (!$productId || !in_array($size, $allowedSizes, true)) {
-    header("Location: " . url('/page.php#store'));
+if (!in_array($size, $allowedSizes, true)) {
+    header("Location: " . url('/product.php?id=' . $productId . '&msg=size'));
+    exit;
+}
+
+if ($quantity < 1) {
+    header("Location: " . url('/product.php?id=' . $productId . '&msg=qty'));
     exit;
 }
 
@@ -35,7 +46,7 @@ try {
     $product = $stmt->get_result()->fetch_assoc();
 
     if (!$product || (int)$product['stock'] <= 0) {
-        header("Location: " . url('/page.php#store'));
+        header("Location: " . url('/product.php?id=' . $productId . '&msg=stock'));
         exit;
     }
 
@@ -58,11 +69,11 @@ try {
         'quantity' => $newQty
     ];
 
-    header("Location: " . url('/cart/view.php'));
+    header("Location: " . url('/cart/view.php?msg=added'));
     exit;
 
 } catch (mysqli_sql_exception $e) {
     error_log("Add to cart error: " . $e->getMessage());
-    header("Location: " . url('/page.php#store'));
+    header("Location: " . url('/product.php?id=' . $productId . '&msg=stock'));
     exit;
 }

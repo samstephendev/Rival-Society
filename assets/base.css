@@ -572,3 +572,182 @@ button[type="submit"]:hover,
 .site-footer a:hover {
   color: var(--rs-cyan);
 }
+
+/* ==========================================================================
+   TOAST NOTIFICATIONS (FEATURE 1)
+   ========================================================================== */
+
+#toast-container {
+  position: fixed;
+  top: var(--space-5);
+  right: var(--space-5);
+  z-index: 99999;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  max-width: calc(100vw - 32px);
+  width: 380px;
+  pointer-events: none;
+}
+
+@media (max-width: 480px) {
+  #toast-container {
+    top: auto;
+    bottom: var(--space-5);
+    right: 50%;
+    transform: translateX(50%);
+    width: calc(100vw - 32px);
+  }
+}
+
+.toast {
+  pointer-events: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  background: var(--rs-surface-elevated);
+  border: 1px solid var(--rs-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-4) var(--space-5);
+  box-shadow: var(--shadow-xl);
+  color: var(--rs-text);
+  font-size: var(--font-sm);
+  font-weight: 600;
+  opacity: 0;
+  transform: translateY(-12px) scale(0.96);
+  transition: opacity 0.25s cubic-bezier(0.16, 1, 0.3, 1), transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.toast-visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.toast-hiding {
+  opacity: 0;
+  transform: translateY(-12px) scale(0.96);
+}
+
+.toast-content {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  flex: 1;
+}
+
+.toast-icon {
+  flex-shrink: 0;
+}
+
+.toast-error {
+  border-color: rgba(239, 68, 68, 0.5);
+  background: #180d0e;
+}
+
+.toast-error .toast-icon {
+  color: var(--rs-failed);
+}
+
+.toast-success {
+  border-color: rgba(34, 197, 94, 0.5);
+  background: #0d1810;
+}
+
+.toast-success .toast-icon {
+  color: var(--rs-paid);
+}
+
+.toast-info {
+  border-color: rgba(0, 245, 212, 0.4);
+  background: #0d1618;
+}
+
+.toast-info .toast-icon {
+  color: var(--rs-cyan);
+}
+
+.toast-close {
+  background: transparent;
+  border: none;
+  color: var(--rs-text-muted);
+  font-size: 22px;
+  line-height: 1;
+  padding: 0 4px;
+  cursor: pointer;
+  transition: color var(--transition-fast);
+}
+
+.toast-close:hover {
+  color: #ffffff;
+}
+
+/* Size Selection Highlight / Shake (Feature 1) */
+.size-highlight {
+  outline: 2px solid var(--rs-red) !important;
+  outline-offset: 4px;
+  border-radius: var(--radius-md);
+  animation: rs-shake 0.4s ease-in-out;
+}
+
+@keyframes rs-shake {
+  0%, 100% { transform: translateX(0); }
+  20%, 60% { transform: translateX(-6px); }
+  40%, 80% { transform: translateX(6px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .size-highlight {
+    animation: none;
+  }
+  .toast {
+    transition: none;
+  }
+}
+
+/* ==========================================================================
+   PASSWORD TOGGLE (FEATURE 5)
+   ========================================================================== */
+
+.password-field-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.password-field-wrapper input {
+  padding-right: 48px !important;
+  width: 100%;
+}
+
+.password-toggle-btn {
+  position: absolute;
+  right: 6px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  color: var(--rs-text-muted);
+  cursor: pointer;
+  padding: 8px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  min-height: 44px;
+  border-radius: var(--radius-md);
+  transition: color var(--transition-fast), background-color var(--transition-fast);
+  z-index: 2;
+}
+
+.password-toggle-btn:hover {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.password-toggle-btn:focus-visible {
+  outline: 2px solid var(--rs-cyan);
+  outline-offset: 2px;
+}
+
