@@ -1,0 +1,121 @@
+Expandable Header Scroll Website
+
+A modern website layout featuring an expandable header that reveals content when scrolling up and collapses when scrolling down, without breaking the page layout.
+
+Built using HTML, CSS, and Vanilla JavaScript.
+
+Demo
+
+Scroll down to collapse the header
+Scroll up to reveal the header content
+
+(Add a GIF or screenshot here later)
+
+Features
+
+Expandable header on scroll up
+
+Auto-collapse on scroll down
+
+Fixed header with smooth slide animation
+
+Background image support
+
+Layout-safe (no disappearing content)
+
+Responsive and lightweight
+
+No external libraries
+
+Tech Stack
+
+HTML5
+
+CSS3
+
+JavaScript (Vanilla)
+
+Project Structure
+project/
+├── index.html
+├── css/
+│   └── style.css
+├── js/
+│   └── script.js
+└── assets/
+    └── images/
+        └── img1.jpg
+
+Header Background Image
+
+The header uses a responsive background image:
+
+background-image: url("../assets/images/img1.jpg");
+background-size: cover;
+background-repeat: no-repeat;
+background-position: center;
+
+
+A dark overlay can be added for better text readability.
+
+How It Works
+
+The header is position: fixed
+
+Instead of animating height, the header is slid into view
+
+A spacer element preserves document flow
+
+Scroll direction is detected using JavaScript
+
+Animations use CSS transitions for smooth performance
+
+This avoids layout reflow and prevents content flickering.
+
+Getting Started
+
+Clone the repository
+
+git clone https://github.com/your-username/expandable-header-scroll.git
+
+
+Open index.html in a browser
+or
+
+Run using VS Code Live Server
+
+Customization
+
+Replace the background image in assets/images/
+
+Adjust header height in style.css
+
+Modify scroll sensitivity in script.js
+
+Add content inside the header section
+
+Known Limitations
+
+Scroll-based interaction may behave differently on very small screens
+
+Mobile touch scrolling can be fine-tuned further
+
+Roadmap
+
+ Parallax background effect
+
+ Mobile-optimized behavior
+
+ Scroll velocity detection
+
+ Accessibility improvements
+
+ Dark / light theme toggle
+
+License
+
+This project is open-source and available under the MIT License.
+
+Author
+
+Sam Stephen
