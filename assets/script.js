@@ -1,10 +1,4 @@
-console.log("Header script loaded");
-
 document.addEventListener("DOMContentLoaded", () => {
-
-  /* ✅ RUN ONLY ON HOMEPAGE */
-  if (!window.location.pathname.endsWith("page.php")) return;
-
   const header   = document.getElementById("header");
   const bar      = document.querySelector(".bar");
   const sections = document.querySelectorAll("section");
@@ -13,10 +7,9 @@ document.addEventListener("DOMContentLoaded", () => {
   if (!header || !bar) return;
 
   let lastScroll = window.scrollY;
-  const stickyOffset = bar.offsetTop; // Capture once
+  const stickyOffset = bar.offsetTop;
 
   window.addEventListener("scroll", () => {
-
     const currentScroll = window.scrollY;
 
     /* =========================
@@ -57,35 +50,36 @@ document.addEventListener("DOMContentLoaded", () => {
         item.dataset.target === currentSection
       );
     });
-
   });
 
-});
-/* =========================
-   NAV CLICK SMOOTH SCROLL
-========================= */
-navItems.forEach(item => {
-  item.addEventListener("click", e => {
-    e.preventDefault();
+  /* =========================
+     NAV CLICK SMOOTH SCROLL
+  ========================= */
+  navItems.forEach(item => {
+    item.addEventListener("click", e => {
+      e.preventDefault();
 
-    const id = item.dataset.target;
-    const target = document.getElementById(id);
-    if (!target) return;
+      const id = item.dataset.target;
+      const target = document.getElementById(id);
+      if (!target) return;
 
-    header?.classList.remove("expanded");
+      if (header) {
+        header.classList.remove("expanded");
+      }
 
-    const headerHeight = header ? header.offsetHeight : 0;
-    const navHeight = bar ? bar.offsetHeight : 0;
-    const offset = headerHeight + navHeight;
+      const headerHeight = header ? header.offsetHeight : 0;
+      const navHeight = bar ? bar.offsetHeight : 0;
+      const offset = headerHeight + navHeight;
 
-    const y =
-      target.getBoundingClientRect().top +
-      window.pageYOffset -
-      offset;
+      const y =
+        target.getBoundingClientRect().top +
+        window.pageYOffset -
+        offset;
 
-    window.scrollTo({
-      top: y,
-      behavior: "smooth"
+      window.scrollTo({
+        top: y,
+        behavior: "smooth"
+      });
     });
   });
 });

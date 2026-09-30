@@ -1,12 +1,21 @@
 <?php
 require_once __DIR__ . '/../config/session.php';
-require_once __DIR__ . '/../config/db.php';
 
-$cartId = (int)$_POST['cart_id'];
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    header("Location: " . url('/cart/view.php'));
+    exit;
+}
 
-$q = $conn->prepare("DELETE FROM cart WHERE id=?");
-$q->bind_param("i", $cartId);
-$q->execute();
+if (!csrf_verify()) {
+    header("Location: " . url('/cart/view.php'));
+    exit;
+}
 
-header("Location: view.php");
+$cartKey = trim($_POST['cart_key'] ?? '');
+
+if ($cartKey !== '' && isset($_SESSION['cart'][$cartKey])) {
+    unset($_SESSION['cart'][$cartKey]);
+}
+
+header("Location: " . url('/cart/view.php'));
 exit;

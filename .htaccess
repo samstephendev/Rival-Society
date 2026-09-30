@@ -1,0 +1,6 @@
+# Rival Society Apache Configuration
+<FilesMatch "(\.env|\.sql|config\.local\.php)$">
+    Require all denied
+</FilesMatch>
+
+Options -Indexes

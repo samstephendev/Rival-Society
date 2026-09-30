@@ -1,0 +1,4 @@
+# Protect sensitive env and configuration files
+<FilesMatch "(\.env|\.local\.php)$">
+    Require all denied
+</FilesMatch>
