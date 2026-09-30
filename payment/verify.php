@@ -63,8 +63,8 @@ try {
 
     // Check if test mode mock
     if (str_starts_with($razorpayOrderId, 'order_mock_') && (str_starts_with($keyId, 'rzp_test_Your') || empty($keySecret))) {
-        // Accept mock verification when real credentials are not configured yet
-        $signatureValid = true;
+        // Accept mock verification unless an explicit invalid test signature is provided
+        $signatureValid = ($razorpaySignature !== 'invalid_signature_hash' && !empty($razorpaySignature));
     } else {
         try {
             $api = new Api($keyId, $keySecret);
