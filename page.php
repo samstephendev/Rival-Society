@@ -109,8 +109,7 @@ require_once __DIR__ . '/config/db.php';
   <section id="about">
     <div class="content-wrap">
       <h2>About Us</h2>
-      <p>Welcome to the ultimate spot for t-shirt fanatics! We're diving deep into the world of screen printing, DTG, and crafting the coolest wearable art. Here, you'll find new print designs, in-depth reviews of different printing techniques, and exclusive looks at our highly-anticipated limited editions. Don't just wear a shirt—wear a statement. Never miss a drop!</p>
-      <h3 class="hed3">Ready to become your own rival?</h3>
+       <h3 class="hed3">Ready to become your own rival?</h3>
     </div>
   </section>
 
