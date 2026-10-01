@@ -32,7 +32,7 @@ try{
     if ($useSsl) {
         $conn->ssl_set(null, null, null, null, null);
     }
-    $conn->real_cnnect($host, $user, $pass, null, $port, null, $useSsl ? MYSQL_CLIENT_SSL : 0);
+    $conn->real_connect($host, $user, $pass, null, $port, null, $useSsl ? MYSQLI_CLIENT_SSL : 0);
     $conn->set_charset("utf8mb4");
     echo " -> Connection established successsfully.\n";
 } catch (mysqli_sql_exception $e) {

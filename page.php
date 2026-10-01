@@ -162,7 +162,7 @@ require_once __DIR__ . '/config/db.php';
         <div class="contact-card-item">
           <i class="fas fa-truck-fast"></i>
           <h3>Shipping & Orders</h3>
-          <p>Pan-India Express Delivery</p>
+          <p>11111-11111</p>
         </div>
       </div>
     </div>
