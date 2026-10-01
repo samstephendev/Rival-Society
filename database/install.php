@@ -28,7 +28,9 @@ mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 
 try {
     // Connect without selecting DB in case DB does not exist yet
-    $conn = new mysqli($host, $user, $pass, null, $port);
+    $conn = musqli_init();
+    if (getenv('DB_SSL') == '1'){ $conn->ssl_set(null,null,null,null,null) }
+    $conn->real_connect($host, $user, $pass, null, $port, getenv('DB_SSL') == '1' ? MYSQLI_CLIENT_SSL : 0);
     $conn->set_charset("utf8mb4");
     echo "  -> Connection established successfully.\n";
 } catch (mysqli_sql_exception $e) {

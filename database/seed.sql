@@ -3,9 +3,6 @@
 -- 4 Sample Products matching assets/images/
 -- Idempotent: Only inserts if image_front is not present
 -- ===================================================
-
-USE `shop_db`;
-
 INSERT INTO `products` (`name`, `price`, `image_front`, `image_back`, `stock`, `status`, `is_new`, `created_at`)
 SELECT 'Naruto Sage Mode Heavyweight Tee', 1499.00, 'D1Front.jpg', 'D1Back.jpg', 25, 'active', 1, NOW()
 WHERE NOT EXISTS (

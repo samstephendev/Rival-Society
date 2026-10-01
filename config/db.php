@@ -74,7 +74,12 @@ if (!defined('BASE_URL')) {
 mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 
 try {
-    $conn = new mysqli($host, $user, $pass, $db, $port);
+    $conn = mysqli_init();
+    $useSsl = getenv('DB_SSL') == '1';
+    if ($useSsl){
+        $conn->ssl_set(null,null,null,null,null);
+    }
+    $conn->real_connect($host,$user,$pass,$db,$port,null,$useSsl ? MYSQLI_CLIENT_SSL : 0);
     $conn->set_charset("utf8mb4");
 } catch (mysqli_sql_exception $e) {
     error_log("Database connection error: " . $e->getMessage());

@@ -2,13 +2,6 @@
 -- Rival Society Database Schema
 -- Charset: utf8mb4, Engine: InnoDB, Idempotent
 -- ===================================================
-
-CREATE DATABASE IF NOT EXISTS `shop_db`
-  DEFAULT CHARACTER SET utf8mb4
-  DEFAULT COLLATE utf8mb4_unicode_ci;
-
-USE `shop_db`;
-
 -- 1. Customer Users Table
 CREATE TABLE IF NOT EXISTS `cust_user` (
   `id` INT AUTO_INCREMENT PRIMARY KEY,
