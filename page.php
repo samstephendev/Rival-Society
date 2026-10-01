@@ -44,12 +44,6 @@ require_once __DIR__ . '/config/db.php';
   <section id="home">
     <div class="content-wrap">
       <h2>Welcome to The Rival Society</h2>
-      <p class="pra1">We were never meant to fit in.<br>We were built to stand apart.</p>
-      <p class="pra1">Rival Society is streetwear for the ones who move against the grain —</p>
-      <p class="pra1">the ones who turn pressure into power,</p>
-      <p class="pra1">silence into noise,</p>
-      <p>and struggle into style.<br>Opposition shaped us.<br>Resistance refined us.<br><br>Rivalry drives us.<br><br>Not against the world —<br><br>but against yourself.</p>
-      <p>This is not fast fashion.<br><br>This is identity.<br><br>If you’re comfortable, this isn’t for you.<br>If you’re evolving,</p> 
       <h3 class="hed3">Welcome Home</h3>
     </div>
   </section>
