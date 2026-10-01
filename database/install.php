@@ -35,8 +35,8 @@ try{
     $conn->real_cnnect($host, $user, $pass, null, $port, null, $useSsl ? MYSQL_CLIENT_SSL : 0);
     $conn->set_charset("utf8mb4");
     echo " -> Connection established successsfully.\n";
-}   catch (mysqli_sql_exception $e) {
-    die(" [FATAL ERROR] Could not connect to MySQL server: " . $e->getMessage() . "\n")
+} catch (mysqli_sql_exception $e) {
+    die(" [FATAL ERROR] Could not connect to MySQL server: " . $e->getMessage() . "\n");
 }
 
 // 1. Create Database if not exists
