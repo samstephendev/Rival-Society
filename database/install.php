@@ -26,15 +26,17 @@ echo "[1/6] Connecting to MySQL server at {$host}:{$port} as user '{$user}'...\n
 
 mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 
-try {
-    // Connect without selecting DB in case DB does not exist yet
-    $conn = musqli_init();
-    if (getenv('DB_SSL') == '1'){ $conn->ssl_set(null,null,null,null,null) }
-    $conn->real_connect($host, $user, $pass, null, $port, getenv('DB_SSL') == '1' ? MYSQLI_CLIENT_SSL : 0);
+try{
+    $conn = mysqli_init();
+    $useSsl = getenv('DB_SSL') === '1';
+    if ($useSsl) {
+        $conn->ssl_set(null, null, null, null, null);
+    }
+    $conn->real_cnnect($host, $user, $pass, null, $port, null, $useSsl ? MYSQL_CLIENT_SSL : 0);
     $conn->set_charset("utf8mb4");
-    echo "  -> Connection established successfully.\n";
-} catch (mysqli_sql_exception $e) {
-    die("  [FATAL ERROR] Could not connect to MySQL server: " . $e->getMessage() . "\n");
+    echo " -> Connection established successsfully.\n";
+}   catch (mysqli_sql_exception $e) {
+    die(" [FATAL ERROR] Could not connect to MySQL server: " . $e->getMessage() . "\n")
 }
 
 // 1. Create Database if not exists
